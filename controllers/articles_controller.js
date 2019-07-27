@@ -4,7 +4,7 @@ const cheerio = require("cheerio");
 
 const controller = {
     home: (req, res) => {
-        db.Article.find({})
+        db.Article.find({}, null, {sort: {scrapedOn: -1}})
             .then(dbArticle => {
                 res.render("index", { articles: dbArticle });
             })

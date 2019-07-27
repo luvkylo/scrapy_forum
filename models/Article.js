@@ -20,7 +20,11 @@ var ArticleSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: "Note"
         }
-    ]
+    ],
+    scrapedOn: {
+        type: Date,
+        default: Date.now
+    }
 });
 
 var Article = mongoose.model("Article", ArticleSchema);
