@@ -20,6 +20,8 @@ const controller = {
 
             let nonDup = false;
 
+            let pass = 0;
+
             $("div").find($("._1poyrkZ7g36PawDueRza-J")).each((i, ele) => {
                 let result = {};
 
@@ -38,6 +40,7 @@ const controller = {
                             nonDup = true;
                             db.Article.create(result)
                             .then(db => {
+                                pass++;
                                 // console.log(dbArticle);
                                 if (i === length) {
                                     res.json({status: 200});
@@ -50,7 +53,9 @@ const controller = {
                             });
                         }
                         if (i === length && !nonDup) {
-                            res.json({ status: 200, msg: "no new article" });
+                            let msg = '';
+                            if (pass === 0) msg = "no new article";
+                            res.json({ status: 200, msg: msg});
                         }
                     })
                     .catch(err => {

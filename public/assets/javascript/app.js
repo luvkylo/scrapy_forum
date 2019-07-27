@@ -99,6 +99,7 @@ $(document).ready(() =>{
                     $(".noNews").fadeOut();
                 }, 5000);
             } else {
+                $(".loadingSpin").remove();
                 location.reload();
             }
         });
