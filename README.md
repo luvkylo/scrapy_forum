@@ -8,7 +8,9 @@
 
 ### Scrapping Reddit for more updated news
 
-You can press "Start Discovering" to load more recent news
+You can press "Start Discovering" to load more recent news. 
+- A title and the most upvoted comment on Reddit is provided
+- You can click on the item to go to the News site
 
 ![Result](img/home.png)
 
