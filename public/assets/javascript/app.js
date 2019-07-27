@@ -1,6 +1,7 @@
 function addZ(n) { return n < 10 ? '0' + n : '' + n; }
 
 $(document).ready(() =>{
+
     $(".clear").on("click", () => $("#comment-text").val(""));
 
     $("#articleModal").on("show.bs.modal", event => {
@@ -84,12 +85,22 @@ $(document).ready(() =>{
     });
 
     $(".discover").on("click", () => {
+        $(".loading").append('<div class="d-flex align-items-center loadingSpin"><strong> Loading...</strong><div class="spinner-border ml-auto" role="status" aria-hidden="true"></div></div>');
         $.ajax({
             method: "GET",
             url: "/scrape"
         })
-        .then(() => {
-            location.reload();
-        })
-    })
+        .then(data => {
+            console.log(data);
+            if (data.msg === "no new article") {
+                $(".loadingSpin").remove();
+                $(".noNews").fadeIn("slow");
+                setTimeout(() => {
+                    $(".noNews").fadeOut();
+                }, 5000);
+            } else {
+                location.reload();
+            }
+        });
+    });
 });

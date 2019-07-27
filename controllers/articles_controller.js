@@ -16,6 +16,10 @@ const controller = {
         axios.get("https://www.reddit.com/r/news/").then(response => {
             let $ = cheerio.load(response.data);
 
+            let length = $("div").find($("._1poyrkZ7g36PawDueRza-J")).length - 1;
+
+            let nonDup = false;
+
             $("div").find($("._1poyrkZ7g36PawDueRza-J")).each((i, ele) => {
                 let result = {};
 
@@ -31,13 +35,22 @@ const controller = {
                     db.Article.findOne({url: result.url})
                     .then(dbArticle => {
                         if (!dbArticle) {
+                            nonDup = true;
                             db.Article.create(result)
                             .then(db => {
                                 // console.log(dbArticle);
+                                if (i === length) {
+                                    res.json({status: 200});
+                                } else {
+                                    nonDup = false;
+                                }
                             })
                             .catch(err => {
                                 console.log(err);
                             });
+                        }
+                        if (i === length && !nonDup) {
+                            res.json({ status: 200, msg: "no new article" });
                         }
                     })
                     .catch(err => {
@@ -45,9 +58,6 @@ const controller = {
                     });
                 });
             });
-            setTimeout(() => {
-                res.send("done");
-            }, 2500);
         });
     },
     addComment: (req, res) => {
